@@ -1,0 +1,24 @@
+{
+  "name": "mmm-parceltrack",
+  "version": "1.0.0",
+  "description": "ParcelTrack Tracking Module for MagicMirror2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derTim/MMM-ParcelTRack.git"
+  },
+  "keywords": [
+    "MagicMirror",
+    "shipment tracking"
+  ],
+  "author": "derTim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/derTim/MMM-ParcelTrack/issues"
+  },
+  "homepage": "https://github.com/derTim/MMM-ParcelTrack#readme",
+  "dependencies": {
+    "jsdom": "^9.4.2",
+    "async": "^2.0.1",
+    "request": "^2.74.0"
+  }
+}
