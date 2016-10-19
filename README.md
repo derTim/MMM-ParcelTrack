@@ -22,7 +22,7 @@ ParcelTrack.de based Tracking Module for MagicMirror<sup>2</sup>
         module: 'MMM-ParcelTrack',
         position: 'bottom_left',
         config: {
-          user_id: 'a72c45e368',
+          user_id: 'asdf123456',
           updateInterval: 600000
         }
      }
