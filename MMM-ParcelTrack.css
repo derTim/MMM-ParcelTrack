@@ -1,9 +1,13 @@
-.MMM-ShipmentTracking .icon {
+.MMM-ParcelTrack .icon {
     margin-right: 5px;
 }
 
-.MMM-ShipmentTracking .table {
+.MMM-ParcelTrack .table {
     text-align: center;
     border-spacing: 2px 0px;
     border-collapse: separate;
+}
+
+.MMM-ParcelTrack .header .icon {
+    padding-left: 5px;
 }

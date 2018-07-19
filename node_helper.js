@@ -10,8 +10,10 @@ const request = require("request");
 
 module.exports = NodeHelper.create({
 
-    overviewUrl: "https://uberblic.com/api/parceltrack/parcels",
-    detailUrl: "https://uberblic.com/api/parceltrack/parcels/",
+    overviewUrl: "https://parceltrack.de/api/v3/parcels",
+    detailUrl: "https://parceltrack.de/api/v3/parcels",
+    hideDeliveredAfter: 0,
+
 
     socketNotificationReceived: function(notification, payload){
         if(notification === "CONFIG"){
@@ -27,15 +29,15 @@ module.exports = NodeHelper.create({
             url: this.overviewUrl + "?" +
             "user_id=" + this.config.user_id
         };
-        console.log('Fetching ParcelTrack Data for user ' + this.config.user_id + ' interval: ' + this.config.updateInterval);
+        console.log('Fetching ParcelTrack Data for user ' + this.config.user_id + ' interval: ' + this.config.updateInterval + ' URL: ' + options.url);
         request(options, (error, response, body) => {
             if (response.statusCode === 200) {
                 body = JSON.parse(body);
-                if(typeof body.response!== 'undefined' && body.response) {
+                //if(typeof body.response!== 'undefined' && body.response) {
                     this.handleData(body);
-                } else {
-                    console.log("Error no ParcelTrack data");
-                }
+                //} else {
+                //    console.log("Error no ParcelTrack data");
+                //}
             } else {
                 console.log("Error getting ParcelTrack data " + response.statusCode);
             }
@@ -43,14 +45,22 @@ module.exports = NodeHelper.create({
     },
 
     handleData: function(data){
+    
+      var parcels = data;
+    
 
-      var parcels = data.response.parcels;
-
-
-      for(var parcel in data.response.parcels){
-      	//console.log(data.response.parcels[parcel]);
+      for(var parcel in parcels){
+        if(parcels[parcel].status == 'delivered'){
+            var laststatus = Date.parse(parcels[parcel].status_timestamp);
+            var now = Date.now();
+            var age = Math.ceil(Math.abs(laststatus - now)/ (1000 * 3600 * 24));
+            if (age>this.config.hideDeliveredAfter) {
+                delete parcels[parcel];
+            }
+        }
       }
 
+      //console.log(parcels);
       this.sendSocketNotification("DATA", parcels);
 
     }

@@ -104,17 +104,24 @@ Module.register("MMM-ParcelTrack",{
     },
 
     appendData: function(data, table){
+        
+        //empty data?
+        if(data == null){return;}
+        //no status?
+        if(data.events.length==0){return;}
+
+
         var row = document.createElement("tr");
         console.log(data);
         var carrierName = document.createElement("td");
-        carrierName.innerHTML = data.courier;
+        carrierName.innerHTML = data.courier_id;
         row.appendChild(carrierName);
 
         var date = document.createElement("td");
         if(this.config.format){
-            date.innerHTML = moment(data.timestamp).format(this.config.format);
+            date.innerHTML = moment(data.status_timestamp).format(this.config.format);
         } else {
-            date.innerHTML = moment(data.timestamp).fromNow();
+            date.innerHTML = moment(data.status_timestamp).fromNow();
         }
         row.appendChild(date);
 
@@ -131,6 +138,6 @@ Module.register("MMM-ParcelTrack",{
         status.innerHTML = data.status; //data.status === 'NO_DATA_ID' ? this.translate(data.status) : data.status;
         subRow.appendChild(status);
 
-	table.appendChild(subRow);
+	      table.appendChild(subRow);
     }
 });
